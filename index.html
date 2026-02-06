@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>One Question ❤️</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #1b1b1b, #000);
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .card {
+    text-align: center;
+    padding: 32px 20px;
+    max-width: 420px;
+    width: 90%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .date {
+    color: #aaa;
+    margin-bottom: 40px;
+    font-size: 0.95rem;
+  }
+
+  .buttons {
+    position: relative;
+    height: 120px;
+  }
+
+  button {
+    border: none;
+    padding: 14px 28px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    position: absolute;
+  }
+
+  #yes {
+    background: #2ecc71;
+    color: black;
+    left: 20%;
+  }
+
+  #no {
+    background: #e74c3c;
+    color: white;
+    right: 20%;
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .message {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: #ffb6e6;
+    margin-top: 20px;
+    min-height: 120px;
+  }
+
+  .heart {
+    margin: 30px auto 0;
+    width: 120px;
+    height: 120px;
+    background: red;
+    position: relative;
+    transform: rotate(-45deg);
+    animation: beat 1s infinite;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .heart::before {
+    top: -60px;
+    left: 0;
+  }
+
+  .heart::after {
+    left: 60px;
+    top: 0;
+  }
+
+  @keyframes beat {
+    0%, 100% { transform: scale(1) rotate(-45deg); }
+    50% { transform: scale(1.1) rotate(-45deg); }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Shilpi,<br>Will you be my Valentine? ❤️</h1>
+  <div class="date">14 February</div>
+
+  <div class="buttons" id="buttons">
+    <button id="yes">YES</button>
+    <button id="no">NO</button>
+  </div>
+
+  <div class="message hidden" id="message"></div>
+  <div class="heart hidden" id="heart"></div>
+</div>
+
+<script>
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  const buttons = document.getElementById("buttons");
+  const messageBox = document.getElementById("message");
+  const heart = document.getElementById("heart");
+
+  // NO button runs away
+  noBtn.addEventListener("mouseenter", moveNo);
+  noBtn.addEventListener("touchstart", moveNo);
+
+  function moveNo() {
+    const x = Math.random() * 60 + 10;
+    const y = Math.random() * 60 + 10;
+    noBtn.style.left = x + "%";
+    noBtn.style.top = y + "%";
+  }
+
+  // YES button
+  yesBtn.addEventListener("click", () => {
+    buttons.classList.add("hidden");
+    messageBox.classList.remove("hidden");
+    heart.classList.remove("hidden");
+    typeText(
+      "Har baar tum hi meri pasand rahogi.\n\n" +
+      "Aaj bhi. Kal bhi. Aur hamesha.\n\n" +
+      "— Shivansh ❤️"
+    );
+  });
+
+  // Typing animation
+  function typeText(text) {
+    let i = 0;
+    messageBox.innerHTML = "";
+    const interval = setInterval(() => {
+      messageBox.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 40);
+  }
+</script>
+
+</body>
+</html>
