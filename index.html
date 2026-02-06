@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>One Question ❤️</title>
+
+<!-- Hindi-safe font -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
   body {
     margin: 0;
     height: 100vh;
     background: radial-gradient(circle at top, #1b1b1b, #000);
-    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont;
+    font-family: 'Segoe UI', system-ui, -apple-system;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    overflow: hidden;
   }
 
   .card {
@@ -47,7 +51,6 @@
     font-weight: 600;
     border-radius: 999px;
     cursor: pointer;
-    transition: transform 0.2s ease;
     position: absolute;
   }
 
@@ -63,20 +66,17 @@
     right: 20%;
   }
 
-  button:active {
-    transform: scale(0.95);
-  }
-
   .hidden {
     display: none;
   }
 
   .message {
+    font-family: 'Noto Serif Devanagari', serif;
     font-size: 1.2rem;
-    line-height: 1.7;
+    line-height: 1.8;
     color: #ffb6e6;
     margin-top: 20px;
-    min-height: 120px;
+    min-height: 140px;
   }
 
   .heart {
@@ -131,17 +131,23 @@
   <div class="heart hidden" id="heart"></div>
 </div>
 
+<!-- Background music (starts after YES) -->
+<audio id="bgMusic" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_0f4a7c2d4a.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <script>
   const noBtn = document.getElementById("no");
   const yesBtn = document.getElementById("yes");
   const buttons = document.getElementById("buttons");
   const messageBox = document.getElementById("message");
   const heart = document.getElementById("heart");
+  const music = document.getElementById("bgMusic");
 
-  // NO button runs away
-  noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("touchstart", moveNo);
-
+  // NO button escapes
   function moveNo() {
     const x = Math.random() * 60 + 10;
     const y = Math.random() * 60 + 10;
@@ -149,19 +155,31 @@
     noBtn.style.top = y + "%";
   }
 
+  noBtn.addEventListener("mouseenter", moveNo);
+  noBtn.addEventListener("touchstart", moveNo);
+
   // YES button
   yesBtn.addEventListener("click", () => {
     buttons.classList.add("hidden");
     messageBox.classList.remove("hidden");
     heart.classList.remove("hidden");
+
+    music.play();
+
+    confetti({
+      particleCount: 160,
+      spread: 80,
+      origin: { y: 0.6 }
+    });
+
     typeText(
-      "Har baar tum hi meri pasand rahogi.\n\n" +
-      "Aaj bhi. Kal bhi. Aur hamesha.\n\n" +
-      "— Shivansh ❤️"
+      "हर बार मेरी पसंद तुम ही रहोगी।\n\n" +
+      "आज भी।\nकल भी।\nऔर हमेशा।\n\n" +
+      "— शिवांश ❤️"
     );
   });
 
-  // Typing animation
+  // Typing effect
   function typeText(text) {
     let i = 0;
     messageBox.innerHTML = "";
@@ -169,9 +187,10 @@
       messageBox.innerHTML += text[i] === "\n" ? "<br>" : text[i];
       i++;
       if (i >= text.length) clearInterval(interval);
-    }, 40);
+    }, 45);
   }
 </script>
 
 </body>
 </html>
+
